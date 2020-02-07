@@ -1,0 +1,5 @@
+var data = [["Bóg", "God"],
+  ["człowiek", "human"],
+  ["dzień", "day"],
+  ["wczoraj", "yesterday"]]
+

@@ -1,0 +1,103 @@
+:root {
+  --hue: 100;
+  
+  --message-color: hsl(var(--hue), 60%, 30%);
+  --message-text: white;
+  --again-color: hsl(var(--hue), 60%, 70%);
+  --again-color-border: hsl(calc(var(--hue) + 180), 100%, 70%);
+  --again-color-hover: hsl(calc(var(--hue) + 180), 100%, 50%);
+  
+  --question-color: hsl(var(--hue), 50%, 90%);
+  --answer-color:  hsl(calc(var(--hue) + 10), 50%, 80%);
+  --marks-color: hsl(var(--hue), 30%, 60%);
+  --marks-shadow: gray;
+  --marks-color-hover:  hsl(var(--hue), 60%, 70%);
+  --marks-color-active: hsl(var(--hue), 60%, 80%);
+
+}
+
+.bb {
+  font-size: 2em;
+  text-align: center;
+  padding: 2em;
+  
+}
+#question{
+  background-color: var(--question-color);
+}
+
+#question:hover, #again, #marks div{
+  cursor: pointer;
+}
+
+#answertext {
+  background-color: var(--answer-color);
+}
+#marks {
+  margin-top: 2em;
+  text-align: center;
+}
+.nonex {
+  display: none;
+}
+.hidden {
+  visibility: collapse;
+}
+
+#marks  div {
+   display:inline;
+   padding: 0.5em 1.5em;
+   margin-right: 1em;
+   background-color: var(--marks-color);   
+   font-size: 2em;
+   border-radius: 5px;
+   box-shadow: 3px 3px 5px var(--marks-shadow);
+}
+
+#marks div:hover {
+   background-color: var(--marks-color-hover);   
+}
+#marks div:active {
+   background-color: var(--marks-color-active);   
+   box-shadow: none;
+}
+#marks div.disabled {
+  background-color: #ddd;
+  box-shadow: none;
+  color: #fafafa;
+}
+
+#message {
+  font-size: 3em;
+  text-align: center;
+  background-color: var(--message-color);
+  padding: 2em;
+  color: var(--message-text);   
+}
+
+#again {
+  font-size:0.5em;
+  background-color: var(--again-color);
+  border-radius: 5px;
+  border-bottom: 6px solid var(--again-color-border);
+  padding: 0.4em;
+  width: max-content;
+  display: inline
+  
+}
+
+#again:hover {
+  border-bottom: 6px solid var(--again-color-hover);
+}
+
+#header {
+  text-align: center;
+  color: gray;
+  background-color: #f4f4f4;
+  padding: 0.3em;
+ 
+}
+#header span {
+  font-size: 0.8em;
+}
+

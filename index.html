@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <script src="test.json"></script>
+  </head>
+  <body>
+    <div id="header">Memo <span>(by Kamila)</span></div>
+    <div id="app">      
+      <div id="marks"></div>
+      <div id="question" class="bb"></div>
+      <div id="answer"><div id="answertext" class="bb"></div></div>
+
+      <div id="message" class="hidden nonex"> <div id="info"/></div>
+      
+    </div>
+  <script>
+
+    var config = {
+      marks: [1,2,3,4,5,6],
+      current: () => config.toRepeat[0],
+      repeatHighest: 4,
+      toRepeat: [],
+      qel: document.getElementById("question"),
+      ael: document.getElementById("answer"),
+      atel: document.getElementById("answertext"),
+      messageel: document.getElementById("message"),
+      marksel: document.getElementById("marks"),
+      appel: document.getElementById("app"),
+    }
+
+    function mkDiv(parent, text) {
+      let el = document.createElement("div");
+      el.innerText = text;
+      parent.appendChild(el);
+      return el;
+    }
+
+    function createMarks(parent, ml) {
+      let ms = [];
+      for (let m of ml) {
+        ms.push(mkDiv(parent, m));
+      }
+      return ms;
+    }
+
+    function hide(el) {
+      el.classList.add("hidden");
+    }
+
+
+    function nonex(el) {
+      el.classList.add("nonex");
+    }
+
+    function show(el) {
+      el.classList.remove("hidden");
+      el.classList.remove("nonex");
+    }
+
+    function loadCurrent() {
+      console.log(`loadCurrent index is ${config.current()}, to repeat is: : ${config.toRepeat} `);
+      if (config.current() !== undefined) {
+        let unit = config.data[config.current()];      
+        config.qel.innerText = unit[0];
+        
+        let ae = config.atel;
+        ae.innerText = unit[1];
+
+        hide(ae);
+        marksEnabled(false);
+      } else {
+        theEnd();
+      }
+    }
+    
+    function marksEnabled(val) {
+      function setEnabled(m, v) {
+        let isEnabled = !m.classList.contains("disabled");
+        if ((isEnabled) && (!val)) {
+          m.classList.add("disabled");
+          m.removeEventListener("click", markClicked);
+        }
+         
+        if ((!isEnabled) && (val)){
+          m.classList.remove("disabled");
+          m.addEventListener("click", markClicked);
+        }
+          
+      }
+      config.marks.forEach(m => {
+        setEnabled(m, val);
+      });
+    }
+
+    function showHiddenAnswer(e) {
+        e.preventDefault(false);
+        show(config.atel);
+        marksEnabled(true);
+    }
+    
+    function createAgainButton() {
+      let again = document.createElement("div");
+      again.id = "again";
+      again.innerText = "Jeszcze raz!"
+      again.addEventListener("click", start);
+      config.messageel.appendChild(again);
+      return again;
+    }
+
+    function showMessage(s, again = false) {
+      show(config.messageel);
+      config.messageel.children["info"].innerText = s;
+      nonex(config.ael);
+      nonex(config.qel);
+      nonex(config.marksel);
+
+      if (again) {
+        show(config.again);
+      } else {
+        hide(config.again);
+      }
+    }
+
+    function hideMessage() {
+      nonex(config.messageel);
+      show(config.qel);
+      show(config.ael);
+      show(config.marksel);
+
+    }
+    function theEnd() {
+      showMessage("Koniec", again=true);
+      config.marks.forEach(m => m.removeEventListener("click", markClicked));
+      config.qel.removeEventListener("click", showHiddenAnswer);
+
+    }
+
+    function prepareData() {
+      config.data = [];
+      config.toRepeat = [];
+      for(let i = 0; i < data.length; i++) {
+        let d = data[i];
+        config.data.push([d[0], d[1], []]);
+        config.toRepeat.push(i);
+      };
+
+      
+      loadCurrent();
+    }
+   
+
+    function updateCurrentAnswer(markClicked) {
+      let c = config.current();
+      if (c !== undefined) {
+        config.data[c][2].push(markClicked);
+        if (parseInt(markClicked) < config.repeatHighest) {
+          config.toRepeat.push(config.current());
+        }
+        config.toRepeat.shift();
+        console.log(`after shift = ${config.current()}, toRepeat is ${config.toRepeat}`);
+        console.log(config);
+      }
+    }
+
+    function markClicked(e) {      
+      let mark = e.target.textContent;
+      console.log(`mark ${mark} clicked`);
+      updateCurrentAnswer(mark);
+      loadCurrent();
+    }
+
+    
+    function start() {
+      hideMessage();
+      config.qel.addEventListener("click",  showHiddenAnswer);
+
+      if (data.length > 0) {
+        prepareData();
+        config.marks.forEach(mel => {
+          mel.addEventListener("click", markClicked);
+        });
+      
+      } else {
+        message("Nie można załadować danych z pliku");
+      }
+    }
+
+    function main(app) {
+      config.marks = createMarks(config.marksel, config.marks);
+      config.again = createAgainButton();
+      start();      
+    }
+    
+    const app = document.getElementById("app");
+    window.onload = () => main(app);
+    
+  </script>
+  </body>
+</html>
