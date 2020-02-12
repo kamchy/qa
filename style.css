@@ -1,12 +1,12 @@
 :root {
   --hue: 100;
-  
+
   --message-color: hsl(var(--hue), 60%, 30%);
   --message-text: white;
   --again-color: hsl(var(--hue), 60%, 70%);
   --again-color-border: hsl(calc(var(--hue) + 180), 100%, 70%);
   --again-color-hover: hsl(calc(var(--hue) + 180), 100%, 50%);
-  
+
   --question-color: hsl(var(--hue), 50%, 90%);
   --answer-color:  hsl(calc(var(--hue) + 10), 50%, 80%);
   --marks-color: hsl(var(--hue), 30%, 60%);
@@ -16,26 +16,34 @@
 
 }
 
-.bb {
+.innertext {
   font-size: 2em;
-  text-align: center;
   padding: 2em;
-  
+
 }
 #question{
   background-color: var(--question-color);
 }
+#answer {
+  background-color: var(--answer-color);
+}
 
-#question:hover, #again, #marks div{
+#question, #answer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+}
+#question:hover{
   cursor: pointer;
 }
 
-#answertext {
-  background-color: var(--answer-color);
-}
 #marks {
   margin-top: 2em;
   text-align: center;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 20px;
 }
 .nonex {
   display: none;
@@ -45,20 +53,19 @@
 }
 
 #marks  div {
-   display:inline;
-   padding: 0.5em 1.5em;
-   margin-right: 1em;
-   background-color: var(--marks-color);   
+
+   border: 2px solid black;
+   background-color: var(--marks-color);
    font-size: 2em;
    border-radius: 5px;
    box-shadow: 3px 3px 5px var(--marks-shadow);
 }
 
 #marks div:hover {
-   background-color: var(--marks-color-hover);   
+   background-color: var(--marks-color-hover);
 }
 #marks div:active {
-   background-color: var(--marks-color-active);   
+   background-color: var(--marks-color-active);
    box-shadow: none;
 }
 #marks div.disabled {
@@ -72,7 +79,7 @@
   text-align: center;
   background-color: var(--message-color);
   padding: 2em;
-  color: var(--message-text);   
+  color: var(--message-text);
 }
 
 #again {
@@ -83,7 +90,7 @@
   padding: 0.4em;
   width: max-content;
   display: inline
-  
+
 }
 
 #again:hover {
@@ -95,9 +102,36 @@
   color: gray;
   background-color: #f4f4f4;
   padding: 0.3em;
- 
+
 }
 #header span {
   font-size: 0.8em;
 }
+.stats {
+  font-size: 0.7em;
+}
+.stats {
+  background-color: #fafafa;
+  padding-left: 3em;
+}
 
+span[class*="grade"] {
+  background-color: #babe;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.3em;
+  display: inline-block;
+}
+.stats span:nth-of-type(1) {
+  background-color: #dedede;
+  padding: 0.2em 1em;
+  margin-right: 2em;
+
+}
+.numel {
+  backround-color: var(--question-color);
+}
+#app {
+  display: grid;
+  grid-template-columns: auto minmax(100px, 30%);
+}
