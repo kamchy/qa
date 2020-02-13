@@ -129,7 +129,7 @@ span[class*="grade"] {
 
 }
 .numel {
-  backround-color: var(--question-color);
+  background-color: var(--question-color);
 }
 #app {
   display: grid;
