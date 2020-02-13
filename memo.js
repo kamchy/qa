@@ -44,6 +44,17 @@ class QA extends React.Component {
   }
 
 }
+
+// Fisher-Yates from https://javascript.info/task/shuffle
+function shuffle(inarray) {
+  let array = new Array(...inarray);
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 function initializedArray(len, elemFn) {
   let a = new Array(len);
   for (let i = 0; i < len; i++) {
@@ -62,10 +73,12 @@ class App extends React.Component {
     this.onMarkClicked = this.onMarkClicked.bind(this);
   }
 
-  initialState(ls) {
+  initialState(arr) {
+    let ls = this.props.learnListReorderFn(arr);
+    let toLearnIdexedObjList = new Array(...ls.map((el, idx) => ({idx, el})));
     let is = {
       appEnd: false,
-      toLearn: new Array(...ls.map((el, idx) => ({idx, el}))),
+      toLearn: toLearnIdexedObjList,
       stats: initializedArray(ls.length, () => new Array())
     };
     ll("initialState called; returns ", is);
@@ -123,11 +136,8 @@ class App extends React.Component {
 
 
   render() {
-    if (this.state.appEnd) {
-      return this.renderAgainButton();
-    } else {
-      return e(React.Fragment, null, this.mkQA(), this.mkStat());
-    }
+    let leftPane = this.state.appEnd ? this.renderAgainButton() : this.mkQA();
+    return e(React.Fragment, null, leftPane, this.mkStat());
   }
 }
 
@@ -160,6 +170,7 @@ function Stats(props) {
 
 const app = e(App, {
   learnList: data,
+  learnListReorderFn: (arr) => shuffle(arr),
   marks: [1,2,3,4,5,6],
   markToIndex: (mark) => mark - 1,
   indexToMark: (idx) => idx + 1,
