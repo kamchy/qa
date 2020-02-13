@@ -3,7 +3,7 @@
 [done] - show number of elements yet to learn
 [done] - minimal styling
 [done] - randomize list of words on input
-- configurable grading fn
+[done] - configurable grading fn
 - two modes: learn and browse
 - choose a learning set
 - generate modules from plaintext files

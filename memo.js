@@ -39,7 +39,7 @@ class QA extends React.Component {
         this.props.onMark(id, e);
 
       }));
-    const m = e("div", {id: "marks"}, marks);
+    const m = e("div", {id: "marks", style: {gridTemplateColumns: `repeat(${marks.length}, 1fr)`} }, marks);
     return  e("div", {className: "qa"}, m, q, a);
   }
 
@@ -168,13 +168,25 @@ function Stats(props) {
 
 }
 
-const app = e(App, {
-  learnList: data,
-  learnListReorderFn: (arr) => shuffle(arr),
+const sixGradeScheme = {
   marks: [1,2,3,4,5,6],
   markToIndex: (mark) => mark - 1,
   indexToMark: (idx) => idx + 1,
-  shouldRepeatIfMark: (mark) => mark < 4},
-  null);
+  shouldRepeatIfMark: (mark) => mark < 4
+}
 
+const twoGradeScheme = {
+  marks: ["nie wiem", "wiem"],
+  markToIndex: (mark) => (mark === "wiem") ? 1 : 0,
+  indexToMark: (idx) => (idx === 0) ? "nie wiem" : "wiem",
+  shouldRepeatIfMark: (mark) => mark === "nie wiem"
+}
+
+const defaultProps ={
+  learnList: data,
+  learnListReorderFn: (arr) => shuffle(arr),
+  ...sixGradeScheme
+  }
+
+const app = e(App, defaultProps, null);
 ReactDOM.render(app, document.getElementById("app"));
