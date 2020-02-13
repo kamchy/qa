@@ -2,7 +2,7 @@
 [done] - during learning: show grades stats
 [done] - show number of elements yet to learn
 [done] - minimal styling
-- randomize list of words on input
+[done] - randomize list of words on input
 - configurable grading fn
 - two modes: learn and browse
 - choose a learning set
